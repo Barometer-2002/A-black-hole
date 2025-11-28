@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import BlackHoleScene, { BlackHoleSceneRef } from './components/BlackHoleScene';
 import ControlPanel from './components/ControlPanel';
@@ -82,8 +81,6 @@ function App() {
         params={params}
         isAutoRotate={isAutoRotate}
         onStatusUpdate={(msg) => {
-          // Parse the distance from the raw message if possible, or just ignore since we handle click feedback here
-          // This callback is mostly for the wheel event which happens inside the component
           if (msg.includes('Distance')) {
              const dist = msg.split(':')[1];
              showTemporaryStatus(`${text.distance}:${dist}`);
@@ -91,18 +88,18 @@ function App() {
         }}
       />
 
-      {/* HUD Layer */}
-      <div className="absolute inset-x-0 bottom-[30px] flex flex-col items-center gap-6 pointer-events-none z-10 px-4 transition-opacity duration-500">
+      {/* HUD Layer - Anchored to bottom with Safe Area padding */}
+      <div className="absolute inset-x-0 bottom-0 flex flex-col justify-end items-center pointer-events-none z-10 px-4 pb-safe transition-all duration-500">
         
-        {/* Status Text */}
+        {/* Status Text - Moves up when controls open due to Flex flow */}
         <div 
-          className="text-xs text-white/75 tracking-[4px] uppercase bg-black/50 px-4 py-2 rounded-md transition-opacity duration-500 shadow-[0_0_15px_rgba(255,255,255,0.1)] backdrop-blur-sm border border-white/5"
+          className="mb-4 text-xs font-medium text-white/60 tracking-[0.2em] uppercase bg-black/40 px-3 py-1.5 rounded-full transition-opacity duration-500 backdrop-blur-md border border-white/5"
           style={{ opacity: statusOpacity }}
         >
           {statusMessage}
         </div>
 
-        {/* Control Panel */}
+        {/* Control Panel - Expands in flow */}
         <ControlPanel 
           isVisible={showControls} 
           params={params} 
@@ -110,8 +107,8 @@ function App() {
           onChange={handleParamChange} 
         />
 
-        {/* Main Toolbar */}
-        <div className="flex gap-6 pointer-events-auto bg-[#0a0a0a]/80 px-8 py-3 rounded-full border border-[#bfa15f]/30 backdrop-blur-xl shadow-[0_0_20px_rgba(0,0,0,0.8),inset_0_0_5px_rgba(255,255,255,0.05)]">
+        {/* Main Toolbar - Always at bottom */}
+        <div className="flex gap-4 md:gap-6 pointer-events-auto bg-[#0a0a0a]/80 px-6 py-3 rounded-full border border-[#bfa15f]/20 backdrop-blur-2xl shadow-[0_4px_20px_rgba(0,0,0,0.6)] mb-2">
           <ActionButton onClick={handleZoomOut} icon="−" title={text.zoomOut} />
           <ActionButton 
             onClick={() => setShowControls(!showControls)} 
@@ -127,7 +124,7 @@ function App() {
             icon="↻" 
             title={text.autoRotate} 
             active={isAutoRotate}
-            activeColor="text-[#bfa15f] drop-shadow-[0_0_6px_#ffc873]"
+            activeColor="text-[#bfa15f] drop-shadow-[0_0_8px_rgba(191,161,95,0.6)]"
           />
           <ActionButton 
             onClick={handleSnapshot} 
@@ -138,7 +135,7 @@ function App() {
             onClick={toggleLanguage} 
             icon={lang === 'en' ? "中" : "En"} 
             title="Switch Language" 
-            className="font-bold text-sm pt-0.5"
+            className="font-bold text-xs md:text-sm pt-0.5"
           />
           <ActionButton onClick={handleZoomIn} icon="+" title={text.zoomIn} />
         </div>
@@ -161,10 +158,10 @@ const ActionButton: React.FC<ActionButtonProps> = ({ onClick, icon, title, activ
     onClick={onClick}
     title={title}
     className={`
-      w-12 h-12 flex items-center justify-center text-2xl transition-all duration-200 ease-out rounded-full
-      hover:bg-white/5 hover:scale-110 hover:text-white hover:drop-shadow-[0_0_8px_#ffc873]
+      w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-xl md:text-2xl transition-all duration-200 ease-out rounded-full
+      hover:bg-white/10 hover:scale-110 hover:text-white
       active:scale-95 active:text-[#bfa15f]
-      ${active ? (activeColor || 'text-[#bfa15f]') : 'text-white/70'}
+      ${active ? (activeColor || 'text-[#bfa15f]') : 'text-white/60'}
       ${className || ''}
     `}
   >

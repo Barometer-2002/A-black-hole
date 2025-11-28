@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { SimulationParams, Language } from '../types';
 import { TEXT_CONTENT } from '../constants';
@@ -15,55 +14,61 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ isVisible, params, lang, on
 
   return (
     <div
-      className={`absolute bottom-24 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[340px] 
-      bg-[#121214] bg-opacity-95 border border-[#bfa15f] border-opacity-20 rounded-xl shadow-[0_4px_30px_rgba(191,161,95,0.15)]
-      p-6 transition-all duration-300 ease-in-out z-20 backdrop-blur-md
-      ${isVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-5 pointer-events-none'}`}
+      className={`
+        relative w-[95%] max-w-[360px] 
+        transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] overflow-hidden
+        ${isVisible ? 'max-h-[60vh] opacity-100 mb-6 translate-y-0' : 'max-h-0 opacity-0 mb-0 translate-y-8'}
+      `}
     >
-      <h3 className="text-[#ffc873] text-lg text-center mb-4 border-b border-white border-opacity-10 pb-2 tracking-widest uppercase font-light">
-        {text.title}
-      </h3>
+      <div className="
+        bg-[#121214]/90 backdrop-blur-xl border border-[#bfa15f]/20 rounded-2xl shadow-2xl
+        p-5 w-full flex flex-col gap-4 overflow-y-auto max-h-[60vh] pointer-events-auto
+      ">
+        <h3 className="text-[#ffc873] text-base text-center border-b border-white/10 pb-2 tracking-[0.2em] uppercase font-light">
+          {text.title}
+        </h3>
 
-      <div className="space-y-4">
-        <Slider
-          label={text.dopplerPower}
-          min={1.0} max={5.0} step={0.1}
-          value={params.dopplerPower}
-          onChange={(v) => onChange('dopplerPower', v)}
-        />
-        <Slider
-          label={text.colorShift}
-          min={0.0} max={0.5} step={0.01}
-          value={params.dopplerColorShift}
-          onChange={(v) => onChange('dopplerColorShift', v)}
-        />
-        <Slider
-          label={text.luminosity}
-          min={0.5} max={5.0} step={0.05}
-          value={params.luminosityScale}
-          onChange={(v) => onChange('luminosityScale', v)}
-        />
-        
-        <div className="h-px bg-white bg-opacity-5 my-3" />
+        <div className="space-y-5">
+          <Slider
+            label={text.dopplerPower}
+            min={1.0} max={5.0} step={0.1}
+            value={params.dopplerPower}
+            onChange={(v) => onChange('dopplerPower', v)}
+          />
+          <Slider
+            label={text.colorShift}
+            min={0.0} max={0.5} step={0.01}
+            value={params.dopplerColorShift}
+            onChange={(v) => onChange('dopplerColorShift', v)}
+          />
+          <Slider
+            label={text.luminosity}
+            min={0.5} max={5.0} step={0.05}
+            value={params.luminosityScale}
+            onChange={(v) => onChange('luminosityScale', v)}
+          />
+          
+          <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-        <Slider
-          label={text.hueShift}
-          min={0.0} max={1.0} step={0.01}
-          value={params.hueShift}
-          onChange={(v) => onChange('hueShift', v)}
-        />
-        <Slider
-          label={text.exposure}
-          min={0.1} max={2.0} step={0.05}
-          value={params.exposure}
-          onChange={(v) => onChange('exposure', v)}
-        />
-        <Slider
-          label={text.bloom}
-          min={0.0} max={5.0} step={0.1}
-          value={params.bloomStrength}
-          onChange={(v) => onChange('bloomStrength', v)}
-        />
+          <Slider
+            label={text.hueShift}
+            min={0.0} max={1.0} step={0.01}
+            value={params.hueShift}
+            onChange={(v) => onChange('hueShift', v)}
+          />
+          <Slider
+            label={text.exposure}
+            min={0.1} max={2.0} step={0.05}
+            value={params.exposure}
+            onChange={(v) => onChange('exposure', v)}
+          />
+          <Slider
+            label={text.bloom}
+            min={0.0} max={5.0} step={0.1}
+            value={params.bloomStrength}
+            onChange={(v) => onChange('bloomStrength', v)}
+          />
+        </div>
       </div>
     </div>
   );
@@ -79,16 +84,20 @@ interface SliderProps {
 }
 
 const Slider: React.FC<SliderProps> = ({ label, min, max, step, value, onChange }) => (
-  <div className="flex items-center text-[13px] text-white/90">
-    <label className="w-24 font-medium text-white/80 whitespace-nowrap overflow-hidden text-ellipsis mr-2">{label}</label>
-    <input
-      type="range"
-      min={min} max={max} step={step}
-      value={value}
-      onChange={(e) => onChange(parseFloat(e.target.value))}
-      className="flex-grow mx-2 h-1 bg-white/20 rounded-sm appearance-none outline-none"
-    />
-    <span className="w-10 text-right text-[#ffc873] font-bold font-mono">{value.toFixed(2)}</span>
+  <div className="flex flex-col gap-1.5">
+    <div className="flex justify-between items-end text-xs text-white/60 font-medium tracking-wide">
+      <span>{label}</span>
+      <span className="text-[#ffc873] font-mono">{value.toFixed(2)}</span>
+    </div>
+    <div className="relative h-6 flex items-center">
+        <input
+        type="range"
+        min={min} max={max} step={step}
+        value={value}
+        onChange={(e) => onChange(parseFloat(e.target.value))}
+        className="w-full h-1 bg-white/10 rounded-full appearance-none outline-none focus:bg-white/20 transition-colors"
+        />
+    </div>
   </div>
 );
 

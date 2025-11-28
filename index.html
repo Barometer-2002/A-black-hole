@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="https://upload.wikimedia.org/wikipedia/commons/5/5e/M87_black_hole.jpg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Event Horizon | Schwarzschild Ray Tracer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -17,13 +17,13 @@
       /* Custom slider styling for Tailwind */
       input[type=range]::-webkit-slider-thumb {
         -webkit-appearance: none;
-        height: 14px;
-        width: 14px;
+        height: 20px;
+        width: 20px;
         border-radius: 50%;
         background: #bfa15f;
         cursor: pointer;
-        margin-top: -5px;
-        box-shadow: 0 0 8px rgba(191, 161, 95, 0.8);
+        margin-top: -8px;
+        box-shadow: 0 0 10px rgba(191, 161, 95, 0.9);
       }
       input[type=range]::-webkit-slider-runnable-track {
         width: 100%;
@@ -31,6 +31,11 @@
         cursor: pointer;
         background: rgba(255, 255, 255, 0.2);
         border-radius: 2px;
+      }
+      
+      /* Safe area utility */
+      .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom, 24px);
       }
     </style>
   <script type="importmap">
@@ -47,6 +52,5 @@
 </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
   </body>
 </html>
