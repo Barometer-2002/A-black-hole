@@ -1,0 +1,5 @@
+{
+  "name": "Event Horizon - Schwarzschild Simulation",
+  "description": "A physically inspired, interactive ray-tracing simulation of a black hole using the Schwarzschild metric with customizable relativistic effects.",
+  "requestFramePermissions": []
+}
